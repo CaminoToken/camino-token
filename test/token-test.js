@@ -1,5 +1,5 @@
 const { expect } = require("chai");
-const { ethers, network } = require("hardhat");
+const { ethers } = require("hardhat");
 
 describe("CaminoToken", function () {
   it("Should mint 1000000000 tokens to accounts[0] (owner)", async function () {
