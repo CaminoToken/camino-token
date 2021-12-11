@@ -2,11 +2,21 @@ const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
 describe("CaminoToken", function () {
+  it("Should mint 1000000000 tokens to the deploying address", async function () {
+    const accounts = (await ethers.getSigners()).map(obj => obj.address)
+
+    const Token = await ethers.getContractFactory("CaminoToken");
+    const token = await Token.deploy("Camino", "CAMI", 18, 1000000000, 50);
+    await token.deployed();
+
+    expect((await token.balanceOf(accounts[0])).toString()).to.equal("1000000000");
+  });
+
   it("Should mint 1000000000 tokens to accounts[0] (owner)", async function () {
     const accounts = (await ethers.getSigners()).map(obj => obj.address)
 
     const Token = await ethers.getContractFactory("CaminoToken");
-    const token = await Token.deploy("Camino", "CAMI", 18, 50);
+    const token = await Token.deploy("Camino", "CAMI", 18, 0, 50);
     await token.deployed();
 
     await token.mint(accounts[0], 1000000000);
@@ -17,7 +27,7 @@ describe("CaminoToken", function () {
     const accounts = (await ethers.getSigners()).map(obj => obj.address)
 
     const Token = await ethers.getContractFactory("CaminoToken");
-    const token = await Token.deploy("Camino", "CAMI", 18, 50);
+    const token = await Token.deploy("Camino", "CAMI", 18, 0, 50);
     await token.deployed();
 
     await token.airdropMint(accounts.slice(1, 10), Array(9).fill(1000000000));
@@ -30,7 +40,7 @@ describe("CaminoToken", function () {
     const accounts = (await ethers.getSigners()).map(obj => obj.address)
 
     const Token = await ethers.getContractFactory("CaminoToken");
-    const token = await Token.deploy("Camino", "CAMI", 18, 2000);
+    const token = await Token.deploy("Camino", "CAMI", 18, 0, 2000);
     await token.deployed();
 
     await token.mint(accounts[0], 1000000000);
@@ -45,7 +55,7 @@ describe("CaminoToken", function () {
     const accounts = (await ethers.getSigners()).map(obj => obj.address)
 
     const Token = await ethers.getContractFactory("CaminoToken");
-    const token = await Token.deploy("Camino", "CAMI", 18, 2000);
+    const token = await Token.deploy("Camino", "CAMI", 18, 0, 2000);
     await token.deployed();
     await token.transferOwnership(accounts[1]);
 

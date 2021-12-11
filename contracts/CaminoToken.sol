@@ -19,10 +19,13 @@ contract CaminoToken is ERC20PresetMinterPauser, Ownable {
         string memory _name, 
         string memory _symbol, 
         uint8 _tokenDecimals,
+        uint initialSupply,
         uint16 _burnRate
         ) ERC20PresetMinterPauser(_name, _symbol) {
             _decimals = _tokenDecimals;
             burnRate = _burnRate;
+            
+            _mint(msg.sender, initialSupply);
     }
 
     function transferOwnership(address newOwner) public virtual override onlyOwner {
